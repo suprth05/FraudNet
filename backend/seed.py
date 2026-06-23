@@ -1,4 +1,3 @@
-from app import create_app
 from extensions import db
 from models.user import User
 from models.transaction import Transaction
@@ -9,20 +8,18 @@ import bcrypt
 import random
 from datetime import datetime, timedelta
 
-app = create_app()
-
 def generate_random_date(days_back=30):
     now = datetime.utcnow()
     random_days = random.uniform(0, days_back)
     return now - timedelta(days=random_days)
 
-def seed_data():
-    with app.app_context():
+def seed_data(drop_tables=True):
+    if drop_tables:
         print("Dropping existing tables to guarantee a fresh seed...")
         db.drop_all()
-        
-        print("Creating tables...")
-        db.create_all()
+    
+    print("Creating tables...")
+    db.create_all()
 
         print("Seeding Users...")
         users = [
@@ -157,4 +154,7 @@ def seed_data():
         print("Database seeded successfully with realistic data!")
 
 if __name__ == '__main__':
-    seed_data()
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        seed_data(drop_tables=True)

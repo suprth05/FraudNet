@@ -27,7 +27,10 @@ def create_app(config_class=Config):
     app.config['JSON_SORT_KEYS'] = False
 
     # Configure CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    cors_origins = app.config.get('CORS_ORIGINS', '*')
+    if isinstance(cors_origins, str) and ',' in cors_origins:
+        cors_origins = [origin.strip() for origin in cors_origins.split(',')]
+    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
 
     # Initialize extensions
     db.init_app(app)
@@ -63,15 +66,26 @@ def create_app(config_class=Config):
     def internal_error(error):
         return {'error': 'Internal Server Error', 'message': 'An unexpected error occurred'}, 500
 
-    # Ensure SQLite database initializes automatically
+    # Ensure database initializes automatically
     with app.app_context():
         import models  # Ensure models are imported before creating tables
         db.create_all()
+        
+        # Auto-seed if database is empty (no users exist)
+        from models.user import User
+        try:
+            if User.query.first() is None:
+                print("No users found in database. Auto-seeding default demo data...")
+                from seed import seed_data
+                seed_data(drop_tables=False)
+        except Exception as e:
+            print(f"Error checking or auto-seeding database: {e}")
 
     return app
 
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
     port = int(os.getenv('PORT', 5001))
     from extensions import socketio
     socketio.run(app, debug=False, port=port, host='0.0.0.0', allow_unsafe_werkzeug=True)

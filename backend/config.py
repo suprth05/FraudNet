@@ -10,7 +10,10 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = False  # Tokens don't expire during demo
 
     # Database Configuration
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'fraudnet.db'))
+    db_url = os.getenv('DATABASE_URL')
+    if db_url and db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DATABASE_URI = db_url or ('sqlite:///' + os.path.join(basedir, 'fraudnet.db'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176,http://localhost:5177')
