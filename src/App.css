@@ -1,0 +1,16 @@
+/* App-level global overrides — design tokens already in index.css */
+
+/* Ensure Ant Design layout fills full height */
+.ant-layout {
+  min-height: 100vh;
+}
+
+/* Global page animation */
+.ant-layout-content > div {
+  animation: fadeInUp 0.3s ease both;
+}
+
+/* Recharts responsive fix */
+.recharts-wrapper {
+  font-family: 'Inter', sans-serif !important;
+}

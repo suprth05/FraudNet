@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ==================== CSS DESIGN TOKENS ==================== */
+:root {
+  /* Brand Colors */
+  --fn-primary: #5c7cfa;
+  --fn-primary-dark: #3b5bdb;
+  --fn-primary-light: #91a7ff;
+  --fn-primary-glow: rgba(92, 124, 250, 0.2);
+
+  /* Semantic Colors */
+  --fn-success: #10b981;
+  --fn-warning: #f59e0b;
+  --fn-danger: #ef4444;
+  --fn-critical: #dc2626;
+  --fn-info: #3b82f6;
+
+  /* Glassmorphic Dark Purple Aesthetic */
+  --fn-bg: #090a0f;
+  --fn-bg-surface: rgba(20, 24, 38, 0.65);
+  --fn-bg-card: rgba(26, 31, 48, 0.45);
+  --fn-bg-elevated: rgba(30, 36, 56, 0.85);
+  --fn-border: rgba(255, 255, 255, 0.06);
+  --fn-border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Text colors */
+  --fn-text-primary: #f1f3f9;
+  --fn-text-secondary: #a5b4fc;
+  --fn-text-muted: #6b7280;
+
+  /* Shadows & Glows */
+  --fn-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --fn-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --fn-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --fn-glow-danger: 0 0 24px rgba(239, 68, 68, 0.2);
+  --fn-glow-success: 0 0 24px rgba(16, 185, 129, 0.2);
+  --fn-glow-primary: 0 0 24px rgba(92, 124, 250, 0.25);
+
+  /* Border Radii */
+  --fn-radius-sm: 8px;
+  --fn-radius-md: 14px;
+  --fn-radius-lg: 18px;
+  --fn-radius-xl: 26px;
+  
+  /* Font Family overrides */
+  --fn-font-main: 'Outfit', 'Inter', -apple-system, sans-serif;
+}
+
+/* ==================== BASE RESET ==================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  font-family: var(--fn-font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--fn-bg);
+  color: var(--fn-text-primary);
+  overflow-x: hidden;
+}
+
+/* Custom radial mesh background gradient */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(92, 124, 250, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(114, 46, 209, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(20, 24, 38, 0.4) 0%, #090a0f 100%);
+  pointer-events: none;
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(9, 10, 15, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fn-primary-light);
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.02); filter: brightness(1.15); }
+}
+@keyframes pulse-danger {
+  0%, 100% { box-shadow: var(--fn-glow-danger); }
+  50%       { box-shadow: 0 0 32px rgba(239,68,68,0.4); }
+}
+@keyframes pulse-primary {
+  0%, 100% { box-shadow: var(--fn-glow-primary); }
+  50%       { box-shadow: 0 0 32px rgba(92, 124, 250, 0.4); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.2); }
+}
+
+/* ==================== ANT DESIGN OVERRIDES ==================== */
+
+.ant-layout {
+  background: transparent !important;
+}
+
+/* Premium Glassmorphic Cards */
+.ant-card {
+  background: var(--fn-bg-card) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--fn-border) !important;
+  border-radius: var(--fn-radius-md) !important;
+  box-shadow: var(--fn-shadow-sm) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.ant-card:hover {
+  border-color: var(--fn-border-hover) !important;
+  box-shadow: var(--fn-shadow-md), 0 4px 20px rgba(92, 124, 250, 0.04) !important;
+  transform: translateY(-2px);
+}
+
+.ant-card-head {
+  background: rgba(255, 255, 255, 0.01) !important;
+  border-bottom: 1px solid var(--fn-border) !important;
+  min-height: 48px !important;
+}
+
+.ant-card-head-title {
+  color: var(--fn-text-primary) !important;
+  font-family: var(--fn-font-main) !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase;
+}
+
+.ant-card-body {
+  color: var(--fn-text-secondary) !important;
+  padding: 20px !important;
+}
+
+/* Custom Table Styles */
+.ant-table {
+  background: transparent !important;
+  color: var(--fn-text-secondary) !important;
+}
+
+.ant-table-thead > tr > th {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: var(--fn-text-secondary) !important;
+  border-bottom: 1px solid var(--fn-border) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 12px 16px !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: transparent !important;
+  border-bottom: 1px solid var(--fn-border) !important;
+  color: var(--fn-text-primary) !important;
+  font-size: 12.5px !important;
+  padding: 12px 16px !important;
+  transition: background 0.2s ease !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.ant-table-cell-row-hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Custom Table Row Expansion Container */
+.ant-table-wrapper .ant-table-expanded-row-fixed {
+  padding: 0 !important;
+}
+
+/* Pagination Styling */
+.ant-pagination-item {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: var(--fn-border) !important;
+  border-radius: 6px !important;
+}
+
+.ant-pagination-item a {
+  color: var(--fn-text-secondary) !important;
+}
+
+.ant-pagination-item-active {
+  background: var(--fn-primary) !important;
+  border-color: var(--fn-primary) !important;
+}
+
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+
+.ant-pagination-prev .ant-pagination-item-link, 
+.ant-pagination-next .ant-pagination-item-link {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: var(--fn-border) !important;
+  color: var(--fn-text-secondary) !important;
+  border-radius: 6px !important;
+}
+
+/* Select Components Customization */
+.ant-select-selector {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: var(--fn-border) !important;
+  border-radius: 8px !important;
+  color: var(--fn-text-primary) !important;
+  height: 38px !important;
+  padding: 3px 12px !important;
+  transition: all 0.3s !important;
+}
+
+.ant-select-selector:hover, .ant-select-focused .ant-select-selector {
+  border-color: var(--fn-primary-light) !important;
+  box-shadow: 0 0 0 2px var(--fn-primary-glow) !important;
+}
+
+.ant-select-dropdown {
+  background: var(--fn-bg-elevated) !important;
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--fn-border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--fn-shadow-lg) !important;
+}
+
+.ant-select-item {
+  color: var(--fn-text-primary) !important;
+  border-radius: 6px !important;
+  margin: 2px 4px !important;
+}
+
+.ant-select-item-option-active {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.ant-select-item-option-selected {
+  background: var(--fn-primary) !important;
+  color: #fff !important;
+}
+
+/* Input Fields Overrides */
+.ant-input, .ant-input-affix-wrapper {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: var(--fn-border) !important;
+  border-radius: 8px !important;
+  color: var(--fn-text-primary) !important;
+  padding: 8px 12px !important;
+  transition: all 0.3s !important;
+}
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: var(--fn-primary-light) !important;
+  box-shadow: 0 0 0 2px var(--fn-primary-glow) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--fn-text-muted) !important;
+}
+
+/* Premium Glowing Buttons */
+.ant-btn-primary {
+  background: linear-gradient(135deg, var(--fn-primary), var(--fn-primary-dark)) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 4px 14px rgba(92, 124, 250, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px !important;
+  padding: 4px 20px !important;
+}
+
+.ant-btn-primary:hover {
+  transform: translateY(-1.5px) !important;
+  box-shadow: 0 6px 20px rgba(92, 124, 250, 0.45) !important;
+  filter: brightness(1.08);
+}
+
+.ant-btn-default {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: var(--fn-border) !important;
+  color: var(--fn-text-secondary) !important;
+  border-radius: 8px !important;
+  height: 38px !important;
+  transition: all 0.3s !important;
+}
+
+.ant-btn-default:hover {
+  border-color: var(--fn-primary-light) !important;
+  color: var(--fn-text-primary) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Semantic Badges and Tags */
+.ant-tag {
+  font-weight: 600 !important;
+  font-size: 10px !important;
+  letter-spacing: 0.06em !important;
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  text-transform: uppercase;
+}
+
+/* Modals & Dialogs Redesign */
+.ant-modal-content {
+  background: var(--fn-bg-elevated) !important;
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--fn-border) !important;
+  border-radius: var(--fn-radius-lg) !important;
+  box-shadow: var(--fn-shadow-lg) !important;
+}
+
+.ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--fn-border) !important;
+  padding-bottom: 14px !important;
+}
+
+.ant-modal-title {
+  color: var(--fn-text-primary) !important;
+  font-weight: 700 !important;
+  font-family: var(--fn-font-main) !important;
+}
+
+.ant-modal-footer {
+  border-top: 1px solid var(--fn-border) !important;
+  padding-top: 14px !important;
+}
+
+/* Drawers Customization */
+.ant-drawer-content {
+  background: var(--fn-bg-elevated) !important;
+  backdrop-filter: blur(24px);
+}
+
+.ant-drawer-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--fn-border) !important;
+}
+
+.ant-drawer-title {
+  color: var(--fn-text-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Forms Labels */
+.ant-form-item-label > label {
+  color: var(--fn-text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* Dropdown styling */
+.ant-dropdown-menu {
+  background: var(--fn-bg-elevated) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--fn-border) !important;
+  border-radius: var(--fn-radius-md) !important;
+  box-shadow: var(--fn-shadow-lg) !important;
+}
+
+/* Drag & Drop Uploads */
+.ant-upload.ant-upload-drag {
+  background: rgba(255, 255, 255, 0.01) !important;
+  border: 1.5px dashed var(--fn-border) !important;
+  border-radius: var(--fn-radius-md) !important;
+  transition: all 0.3s !important;
+}
+
+.ant-upload.ant-upload-drag:hover {
+  border-color: var(--fn-primary) !important;
+  background: rgba(92, 124, 250, 0.02) !important;
+}
+
+/* ==================== UTILITY STYLES ==================== */
+.fn-monospace {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+}
+
+.fn-gradient-text {
+  background: linear-gradient(135deg, #fff 30%, var(--fn-primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.fn-glass {
+  background: var(--fn-bg-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--fn-border);
+}
+
+.fn-danger-glow {
+  animation: pulse-danger 3s ease-in-out infinite;
+}
+
+.fn-primary-glow-anim {
+  animation: pulse-primary 3s ease-in-out infinite;
+}
+
+/* Recharts Custom Polish */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.03) !important;
+}
+
+.recharts-text {
+  fill: var(--fn-text-muted) !important;
+  font-size: 10px !important;
+  font-family: var(--fn-font-main) !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--fn-text-secondary) !important;
+  font-size: 11px !important;
+}
+
+.recharts-default-tooltip {
+  background-color: var(--fn-bg-elevated) !important;
+  border: 1px solid var(--fn-border) !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--fn-shadow-md) !important;
+}
+
+/* Page animations */
+.page-fade-in {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Custom premium card headers with small gradient line */
+.fn-card-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.fn-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--fn-primary), var(--fn-primary-light), transparent);
+}
+
+.fn-card-danger {
+  position: relative;
+  overflow: hidden;
+}
+
+.fn-card-danger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--fn-danger), var(--fn-critical), transparent);
+}
